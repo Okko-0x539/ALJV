@@ -55,7 +55,67 @@ public class EnemyAI : MonoBehaviour
 
         }
     }
-
+    void AttackEasy()
+    {
+        if(weaponInHand == WeaponTypes.Bow)
+        {
+            int attackChance = Random.Range(1, 101);
+            if(attackChance <= 50)
+            {
+                player.GetComponent<PlayerScript>().TakeDamage(5);
+            }
+            
+        }
+        else
+        {
+            int attackChance = Random.Range(1, 101);
+            if (attackChance <= 70)
+            {
+                player.GetComponent<PlayerScript>().TakeDamage(5);
+            }
+        }
+        energy -= 10;
+    }
+    void AttackNormal()
+    {
+        if (weaponInHand == WeaponTypes.Bow)
+        {
+            int attackChance = Random.Range(1, 101);
+            if (attackChance <= 35)
+            {
+                player.GetComponent<PlayerScript>().TakeDamage(10);
+            }
+        }
+        else
+        {
+            int attackChance = Random.Range(1, 101);
+            if (attackChance <= 50)
+            {
+                player.GetComponent<PlayerScript>().TakeDamage(20);
+            }
+        }
+        energy -= 20;
+    }
+    void AttackHard()
+    {
+        if (weaponInHand == WeaponTypes.Bow)
+        {
+            int attackChance = Random.Range(1, 101);
+            if (attackChance <= 20)
+            {
+                player.GetComponent<PlayerScript>().TakeDamage(15);
+            }
+        }
+        else
+        {
+            int attackChance = Random.Range(1, 101);
+            if (attackChance <= 30)
+            {
+                player.GetComponent<PlayerScript>().TakeDamage(30);
+            }
+        }
+        energy -= 30;
+    }
     bool CanMoveForward()
     {
         return gameObject.transform.position.z + 4 < player.gameObject.transform.position.z; 
@@ -95,13 +155,12 @@ public class EnemyAI : MonoBehaviour
     {
         if (weaponInHand == WeaponTypes.Bow)
         {
-
+            return (player.transform.position.z - gameObject.transform.position.z) <= 20;
         }
         else
         {
-
+            return (player.transform.position.z - gameObject.transform.position.z) <= 6;
         }
-        return true;
     }
 
     public void DecideAction()

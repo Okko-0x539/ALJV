@@ -437,8 +437,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e64b78eac8087f5428f357834c434f6f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ZAxisMinValue: 380
-  ZAxisMaxValue: 520
+  ZAxisMinValue: 379
+  ZAxisMaxValue: 521
 --- !u!1 &107739160
 GameObject:
   m_ObjectHideFlags: 0
@@ -8098,6 +8098,7 @@ MonoBehaviour:
   buttons: {fileID: 1176258121}
   attackbuttons: {fileID: 550118082}
   weapon: {fileID: 1452046314}
+  terrain: {fileID: 0}
   player_attack_range: 20
   player_turn: 1
   attackmode: 0

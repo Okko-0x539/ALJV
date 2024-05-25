@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class EnemyAI : MonoBehaviour
@@ -26,7 +27,21 @@ public class EnemyAI : MonoBehaviour
 
     void Die()
     {
-
+        if(PlayerPrefs.GetInt("AILevel") == 1)
+        {
+            PlayerPrefs.SetInt("AILevel", 2);
+            SceneManager.LoadScene("Arena");
+        }
+        if (PlayerPrefs.GetInt("AILevel") == 2)
+        {
+            PlayerPrefs.SetInt("AILevel", 3);
+            SceneManager.LoadScene("Arena");
+        }
+        if (PlayerPrefs.GetInt("AILevel") == 3)
+        {
+            PlayerPrefs.SetInt("AILevel", 1);
+            SceneManager.LoadScene("Main");
+        }
     }
 
     void DrinkPotion()
@@ -270,7 +285,9 @@ public class EnemyAI : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        //if AILevel = 1 - no switch, sword weapon start
+        //if AILevel = 2 - no switch, bow weapon start
+        //if AILevel = 3 - can switch, bow weapon start
     }
 
     // Update is called once per frame

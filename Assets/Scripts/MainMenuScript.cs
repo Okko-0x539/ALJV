@@ -19,6 +19,7 @@ public class MainMenuScript : MonoBehaviour
 
     public void StartGame()
     {
+        PlayerPrefs.SetInt("AILevel", 1);
         SceneManager.LoadScene("Arena");
     }
 

@@ -42,6 +42,12 @@ public class PlayerScript : MonoBehaviour
             
     }
 
+    public bool CanAttack()
+    {
+        // logica daca jucatorul poate ataca
+        return true;
+    }
+
     public void MoveForward()
     {
         gameObject.transform.Translate(0, 0, 4);

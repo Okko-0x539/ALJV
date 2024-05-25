@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class PlayerScript : MonoBehaviour
@@ -9,8 +10,12 @@ public class PlayerScript : MonoBehaviour
     public GameObject enemy;
     public GameObject potion;
     public GameObject buttons;
+    public GameObject attackbuttons;
+    public GameObject weapon;
     public int player_attack_range;
     public bool player_turn = true;
+    public bool attackmode = false;
+    public TextMeshProUGUI instructions;
     // Start is called before the first frame update
     void Start()
     {
@@ -21,9 +26,20 @@ public class PlayerScript : MonoBehaviour
     void Update()
     {
         if(!player_turn)
+        {
             buttons.SetActive(false);
+            instructions.gameObject.SetActive(false);
+        }
         else
-            buttons.SetActive(true);
+            if (attackmode)
+            {
+                buttons.SetActive(false);
+            }
+            else
+            {
+                buttons.SetActive(true);
+            }
+            
     }
 
     public void MoveForward()
@@ -54,6 +70,16 @@ public class PlayerScript : MonoBehaviour
         potion.SetActive(false);
         player_turn = false;
     }
+    public void Attack()
+    {
+        attackbuttons.SetActive(true);
+        attackmode = true;
+    }
+    public void Back()
+    {
+        attackbuttons.SetActive(false);
+        attackmode = false;
+    }
     public void AttackEasy()
     {
         if (enemy.transform.position.z - gameObject.transform.position.z < player_attack_range)
@@ -65,6 +91,8 @@ public class PlayerScript : MonoBehaviour
             //configure attacks
         }
         player_turn = false;
+        attackmode = false;
+        attackbuttons.SetActive(false);
     }
     public void AttackMedium()
     {
@@ -77,6 +105,8 @@ public class PlayerScript : MonoBehaviour
             //configure attacks
         }
         player_turn = false;
+        attackmode = false;
+        attackbuttons.SetActive(false);
     }
     public void AttackHard()
     {
@@ -89,6 +119,8 @@ public class PlayerScript : MonoBehaviour
             //configure attacks
         }
         player_turn = false;
+        attackmode = false;
+        attackbuttons.SetActive(false);
     }
     public void SwitchWeapon()
     {

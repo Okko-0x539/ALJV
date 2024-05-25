@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class EnemyAI : MonoBehaviour
 {
@@ -11,6 +12,8 @@ public class EnemyAI : MonoBehaviour
     public WeaponTypes weaponInHand;
     public GameObject player;
     public GameObject terrain;
+    public Slider Hp;
+    public Slider Energy;
 
     public void TakeDamage(int damage)
     {
@@ -184,6 +187,7 @@ public class EnemyAI : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        Hp.value = health / 100.0f;
+        Energy.value = energy / 100.0f;
     }
 }

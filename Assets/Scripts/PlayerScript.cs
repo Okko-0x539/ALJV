@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerScript : MonoBehaviour
 {
@@ -17,6 +18,8 @@ public class PlayerScript : MonoBehaviour
     public bool player_turn = true;
     public bool attackmode = false;
     public TextMeshProUGUI instructions;
+    public Slider Hp;
+    public Slider Energy;
     // Start is called before the first frame update
     void Start()
     {
@@ -26,21 +29,22 @@ public class PlayerScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(!player_turn)
+        Hp.value = health / 100.0f;
+        Energy.value = energy / 100.0f;
+
+        if (!player_turn)
         {
             buttons.SetActive(false);
             instructions.gameObject.SetActive(false);
         }
+        else if (attackmode)
+        {
+            buttons.SetActive(false);
+        }
         else
-            if (attackmode)
-            {
-                buttons.SetActive(false);
-            }
-            else
-            {
-                buttons.SetActive(true);
-            }
-            
+        {
+            buttons.SetActive(true);
+        }
     }
 
     public bool CanAttack()

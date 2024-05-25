@@ -8,6 +8,7 @@ public class PlayerScript : MonoBehaviour
 {
     public int health = 100;
     public int energy = 100;
+    public WeaponTypes weaponInHand;
     public GameObject enemy;
     public GameObject potion;
     public GameObject buttons;
@@ -49,7 +50,14 @@ public class PlayerScript : MonoBehaviour
 
     public bool CanAttack()
     {
-        return gameObject.transform.position.z - enemy.transform.position.z < player_attack_range;
+        if (weaponInHand == WeaponTypes.Bow)
+        {
+            return gameObject.transform.position.z - enemy.transform.position.z < 20;
+        }
+        else
+        {
+            return gameObject.transform.position.z - enemy.transform.position.z < 6;
+        }
     }
 
     public void TakeDamage(int damage)
@@ -116,45 +124,82 @@ public class PlayerScript : MonoBehaviour
     }
     public void AttackEasy()
     {
-        if (CanAttack())
+        if (weaponInHand == WeaponTypes.Bow)
         {
-            enemy.GetComponent<EnemyAI>().TakeDamage(10);
+            int attackChance = Random.Range(1, 101);
+            if (attackChance <= 50 && CanAttack())
+            {
+                enemy.GetComponent<PlayerScript>().TakeDamage(5);
+            }
+
         }
         else
         {
-            // miss
+            int attackChance = Random.Range(1, 101);
+            if (attackChance <= 70 && CanAttack())
+            {
+                enemy.GetComponent<PlayerScript>().TakeDamage(5);
+            }
         }
         player_turn = false;
         attackmode = false;
         attackbuttons.SetActive(false);
+
+        energy -= 10;
+        if (energy < 0)
+            energy = 0;
     }
     public void AttackMedium()
     {
-        if (CanAttack())
+        if (weaponInHand == WeaponTypes.Bow)
         {
-            enemy.GetComponent<EnemyAI>().TakeDamage(20);
+            int attackChance = Random.Range(1, 101);
+            if (attackChance <= 35 && CanAttack())
+            {
+                enemy.GetComponent<PlayerScript>().TakeDamage(10);
+            }
         }
         else
         {
-            // miss 
+            int attackChance = Random.Range(1, 101);
+            if (attackChance <= 50 && CanAttack())
+            {
+                enemy.GetComponent<PlayerScript>().TakeDamage(20);
+            }
         }
         player_turn = false;
         attackmode = false;
         attackbuttons.SetActive(false);
+
+        energy -= 20;
+        if (energy < 0)
+            energy = 0;
     }
     public void AttackHard()
     {
-        if (CanAttack())
+        if (weaponInHand == WeaponTypes.Bow)
         {
-            enemy.GetComponent<EnemyAI>().TakeDamage(40);
+            int attackChance = Random.Range(1, 101);
+            if (attackChance <= 20 && CanAttack())
+            {
+                enemy.GetComponent<PlayerScript>().TakeDamage(15);
+            }
         }
         else
         {
-            // miss
+            int attackChance = Random.Range(1, 101);
+            if (attackChance <= 30 && CanAttack())
+            {
+                enemy.GetComponent<PlayerScript>().TakeDamage(30);
+            }
         }
         player_turn = false;
         attackmode = false;
         attackbuttons.SetActive(false);
+
+        energy -= 30;
+        if (energy < 0)
+            energy = 0;
     }
     public void SwitchWeapon()
     {

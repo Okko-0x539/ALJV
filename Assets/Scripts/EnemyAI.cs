@@ -46,13 +46,21 @@ public class EnemyAI : MonoBehaviour
 
     void Attack()
     {
-        if(weaponInHand == WeaponTypes.Bow)
-        {
+        int attackChoice = Random.Range(1, 4);
 
-        }
-        else
+        switch (attackChoice)
         {
-
+            case 1:
+                AttackEasy();
+                break;
+            case 2:
+                AttackMedium();
+                break;
+            case 3:
+                AttackHard();
+                break;
+            default:
+                return;
         }
     }
     void AttackEasy()
@@ -60,7 +68,7 @@ public class EnemyAI : MonoBehaviour
         if(weaponInHand == WeaponTypes.Bow)
         {
             int attackChance = Random.Range(1, 101);
-            if(attackChance <= 50)
+            if(attackChance <= 50 && CanAttack())
             {
                 player.GetComponent<PlayerScript>().TakeDamage(5);
             }
@@ -69,19 +77,22 @@ public class EnemyAI : MonoBehaviour
         else
         {
             int attackChance = Random.Range(1, 101);
-            if (attackChance <= 70)
+            if (attackChance <= 70 && CanAttack())
             {
                 player.GetComponent<PlayerScript>().TakeDamage(5);
             }
         }
+
         energy -= 10;
+        if (energy < 0)
+            energy = 0;
     }
-    void AttackNormal()
+    void AttackMedium()
     {
         if (weaponInHand == WeaponTypes.Bow)
         {
             int attackChance = Random.Range(1, 101);
-            if (attackChance <= 35)
+            if (attackChance <= 35 && CanAttack())
             {
                 player.GetComponent<PlayerScript>().TakeDamage(10);
             }
@@ -89,19 +100,22 @@ public class EnemyAI : MonoBehaviour
         else
         {
             int attackChance = Random.Range(1, 101);
-            if (attackChance <= 50)
+            if (attackChance <= 50 && CanAttack())
             {
                 player.GetComponent<PlayerScript>().TakeDamage(20);
             }
         }
+
         energy -= 20;
+        if (energy < 0)
+            energy = 0;
     }
     void AttackHard()
     {
         if (weaponInHand == WeaponTypes.Bow)
         {
             int attackChance = Random.Range(1, 101);
-            if (attackChance <= 20)
+            if (attackChance <= 20 && CanAttack())
             {
                 player.GetComponent<PlayerScript>().TakeDamage(15);
             }
@@ -109,13 +123,29 @@ public class EnemyAI : MonoBehaviour
         else
         {
             int attackChance = Random.Range(1, 101);
-            if (attackChance <= 30)
+            if (attackChance <= 30 && CanAttack())
             {
                 player.GetComponent<PlayerScript>().TakeDamage(30);
             }
         }
+
         energy -= 30;
+        if (energy < 0)
+            energy = 0;
     }
+
+    bool CanAttack()
+    {
+        if (weaponInHand == WeaponTypes.Bow)
+        {
+            return player.transform.position.z - gameObject.transform.position.z < 20;
+        }
+        else
+        {
+            return player.transform.position.z - gameObject.transform.position.z < 6;
+        }
+    }
+
     bool CanMoveForward()
     {
         return gameObject.transform.position.z + 4 < player.gameObject.transform.position.z; 

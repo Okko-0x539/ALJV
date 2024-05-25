@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class EnemyAI : MonoBehaviour
 {
@@ -12,8 +11,15 @@ public class EnemyAI : MonoBehaviour
     public WeaponTypes weaponInHand;
     public GameObject player;
     public GameObject terrain;
-    public Slider Hp;
-    public Slider Energy;
+
+    public void TakeDamage(int damage)
+    {
+        health -= damage;
+        if (health <= 0)
+        {
+            Die();
+        }
+    }
 
     void Die()
     {
@@ -22,19 +28,24 @@ public class EnemyAI : MonoBehaviour
 
     void DrinkPotion()
     {
-
+        health += 50;
+        if (health > 100)
+            health = 100;
+        hasPotion = false;
     }
 
     void Rest()
     {
-        
+        energy += 50;
+        if (energy > 100)
+            energy = 100;
     }
 
     void Attack()
     {
         if(weaponInHand == WeaponTypes.Bow)
         {
-            
+
         }
         else
         {
@@ -42,26 +53,46 @@ public class EnemyAI : MonoBehaviour
         }
     }
 
+    bool CanMoveForward()
+    {
+        return gameObject.transform.position.z + 4 < player.gameObject.transform.position.z; 
+    }
+
+    bool CanMoveBackward()
+    {
+        return gameObject.transform.position.z - 4 > terrain.GetComponent<TerrainAttributes>().ZAxisMinValue;
+    }
+
     void MoveForward()
     {
-
+        if (!CanMoveForward()) return;
+        gameObject.transform.Translate(0, 0, -4);
+        energy -= 5;
     }
 
     void MoveBackward()
     {
-
+        if (!CanMoveBackward()) return;
+        gameObject.transform.Translate(0, 0, 4);
+        energy -= 5;
     }
 
     void SwitchWeapons()
     {
-
+        if(canSwitchWeapons)
+        {
+            if (weaponInHand == WeaponTypes.Bow)
+                weaponInHand = WeaponTypes.Sword;
+            else
+                weaponInHand = WeaponTypes.Bow;
+        }
     }
 
     bool IsPlayerInAttackRange()
     {
         if (weaponInHand == WeaponTypes.Bow)
         {
-            
+
         }
         else
         {
@@ -86,7 +117,7 @@ public class EnemyAI : MonoBehaviour
             {
                 if (weaponInHand == WeaponTypes.Bow) // Has a bow
                 {
-                    if (gameObject.transform.position.z - 4 >= terrain.GetComponent<TerrainAttributes>().ZAxisMinValue) // Can move backwards
+                    if (CanMoveBackward()) // Can move backwards
                     {
                         if (IsPlayerInAttackRange()) // Player in attack range
                         {
@@ -129,7 +160,7 @@ public class EnemyAI : MonoBehaviour
                             Attack(); // Move forward
                         }
                     }
-                    else
+                    else if (CanMoveForward())
                     {
                         MoveForward();
                     }
@@ -140,6 +171,7 @@ public class EnemyAI : MonoBehaviour
                 Rest();
             }
         }
+        player.GetComponent<PlayerScript>().player_turn = true;
     }
 
 
@@ -152,7 +184,6 @@ public class EnemyAI : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Hp.value = health / 100.0f;
-        Energy.value = energy / 100.0f;
+        
     }
 }

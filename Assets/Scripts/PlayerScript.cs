@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class PlayerScript : MonoBehaviour
 {
@@ -13,12 +12,11 @@ public class PlayerScript : MonoBehaviour
     public GameObject buttons;
     public GameObject attackbuttons;
     public GameObject weapon;
+    public GameObject terrain;
     public int player_attack_range;
     public bool player_turn = true;
     public bool attackmode = false;
     public TextMeshProUGUI instructions;
-    public Slider Hp;
-    public Slider Energy;
     // Start is called before the first frame update
     void Start()
     {
@@ -28,8 +26,6 @@ public class PlayerScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Hp.value = health / 100.0f;
-        Energy.value = energy / 100.0f;
         if(!player_turn)
         {
             buttons.SetActive(false);
@@ -49,8 +45,31 @@ public class PlayerScript : MonoBehaviour
 
     public bool CanAttack()
     {
-        // logica daca jucatorul poate ataca
-        return true;
+        return gameObject.transform.position.z - enemy.transform.position.z < player_attack_range;
+    }
+
+    public void TakeDamage(int damage)
+    {
+        health -= damage;
+        if (health <= 0)
+        {
+            Die();
+        }
+    }
+
+    void Die()
+    {
+
+    }
+
+    public bool CanMoveForward()
+    {
+        return gameObject.transform.position.z - 4 > enemy.gameObject.transform.position.z;
+    }
+
+    public bool CanMoveBackward()
+    {
+        return gameObject.transform.position.z + 4 < terrain.GetComponent<TerrainAttributes>().ZAxisMaxValue;
     }
 
     public void MoveForward()
@@ -93,13 +112,13 @@ public class PlayerScript : MonoBehaviour
     }
     public void AttackEasy()
     {
-        if (enemy.transform.position.z - gameObject.transform.position.z < player_attack_range)
+        if (CanAttack())
         {
-            //miss
+            enemy.GetComponent<EnemyAI>().TakeDamage(10);
         }
         else
         {
-            //configure attacks
+            // miss
         }
         player_turn = false;
         attackmode = false;
@@ -107,13 +126,13 @@ public class PlayerScript : MonoBehaviour
     }
     public void AttackMedium()
     {
-        if (enemy.transform.position.z - gameObject.transform.position.z < player_attack_range)
+        if (CanAttack())
         {
-            //miss
+            enemy.GetComponent<EnemyAI>().TakeDamage(20);
         }
         else
         {
-            //configure attacks
+            // miss 
         }
         player_turn = false;
         attackmode = false;
@@ -121,13 +140,13 @@ public class PlayerScript : MonoBehaviour
     }
     public void AttackHard()
     {
-        if (enemy.transform.position.z - gameObject.transform.position.z < player_attack_range)
+        if (CanAttack())
         {
-            //miss
+            enemy.GetComponent<EnemyAI>().TakeDamage(40);
         }
         else
         {
-            //configure attacks
+            // miss
         }
         player_turn = false;
         attackmode = false;

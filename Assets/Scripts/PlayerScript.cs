@@ -18,7 +18,6 @@ public class PlayerScript : MonoBehaviour
     public GameObject terrain;
     public GameObject sword;
     public GameObject bow;
-    public int player_attack_range;
     public bool player_turn = true;
     public bool attackmode = false;
     public TextMeshProUGUI instructions;
@@ -94,12 +93,12 @@ public class PlayerScript : MonoBehaviour
             gameObject.transform.Translate(0, 0, 4);
             energy -= 5;
             player_turn = false;
+            enemy.GetComponent<EnemyAI>().DecideAction();
         }
         else
         {
             Rest();
         }
-        
     }
 
     public void MoveBackward()
@@ -109,12 +108,12 @@ public class PlayerScript : MonoBehaviour
             gameObject.transform.Translate(0, 0, -4);
             energy -= 5;
             player_turn = false;
+            enemy.GetComponent<EnemyAI>().DecideAction();
         }
         else
         {
             Rest();
         }
-        
     }
     public void Rest()
     {
@@ -122,6 +121,7 @@ public class PlayerScript : MonoBehaviour
         if(energy > 100)
             energy = 100;
         player_turn = false;
+        enemy.GetComponent<EnemyAI>().DecideAction();
     }
     public void Potion()
     {
@@ -130,6 +130,7 @@ public class PlayerScript : MonoBehaviour
             health = 100;
         potion.SetActive(false);
         player_turn = false;
+        enemy.GetComponent<EnemyAI>().DecideAction();
     }
     public void Attack()
     {
@@ -163,6 +164,7 @@ public class PlayerScript : MonoBehaviour
                 }
             }
             player_turn = false;
+            enemy.GetComponent<EnemyAI>().DecideAction();
             attackmode = false;
             attackbuttons.SetActive(false);
 
@@ -198,6 +200,7 @@ public class PlayerScript : MonoBehaviour
                 }
             }
             player_turn = false;
+            enemy.GetComponent<EnemyAI>().DecideAction();
             attackmode = false;
             attackbuttons.SetActive(false);
 
@@ -233,6 +236,7 @@ public class PlayerScript : MonoBehaviour
                 }
             }
             player_turn = false;
+            enemy.GetComponent<EnemyAI>().DecideAction();
             attackmode = false;
             attackbuttons.SetActive(false);
 
@@ -266,6 +270,7 @@ public class PlayerScript : MonoBehaviour
             }
             energy -= 5;
             player_turn = false;
+            enemy.GetComponent<EnemyAI>().DecideAction();
         }
         else
         {

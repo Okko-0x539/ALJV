@@ -8093,12 +8093,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   health: 100
   energy: 100
+  weaponInHand: 0
   enemy: {fileID: 3686466659073130696}
   potion: {fileID: 1063044139}
   buttons: {fileID: 1176258121}
   attackbuttons: {fileID: 550118082}
   weapon: {fileID: 1452046314}
-  terrain: {fileID: 0}
+  terrain: {fileID: 88451155}
   player_attack_range: 20
   player_turn: 1
   attackmode: 0
@@ -9436,7 +9437,7 @@ MonoBehaviour:
   canSwitchWeapons: 0
   weaponInHand: 0
   player: {fileID: 1426477160758532}
-  terrain: {fileID: 0}
+  terrain: {fileID: 88451155}
   Hp: {fileID: 1872813428}
   Energy: {fileID: 240095983}
 --- !u!1 &3686531748104450832

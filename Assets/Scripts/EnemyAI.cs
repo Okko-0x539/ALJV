@@ -13,6 +13,8 @@ public class EnemyAI : MonoBehaviour
     public WeaponTypes weaponInHand;
     public GameObject player;
     public GameObject terrain;
+    public GameObject sword;
+    public GameObject bow;
     public Slider Hp;
     public Slider Energy;
 
@@ -190,10 +192,19 @@ public class EnemyAI : MonoBehaviour
         if(canSwitchWeapons)
         {
             if (weaponInHand == WeaponTypes.Bow)
+            {
                 weaponInHand = WeaponTypes.Sword;
+                bow.SetActive(false);
+                sword.SetActive(true);
+            }
             else
+            {
                 weaponInHand = WeaponTypes.Bow;
+                bow.SetActive(true);
+                sword.SetActive(false);
+            }   
         }
+        energy -= 5;
     }
 
     bool IsPlayerInAttackRange()

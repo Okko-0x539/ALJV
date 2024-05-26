@@ -16,6 +16,8 @@ public class PlayerScript : MonoBehaviour
     public GameObject attackbuttons;
     public GameObject weapon;
     public GameObject terrain;
+    public GameObject sword;
+    public GameObject bow;
     public int player_attack_range;
     public bool player_turn = true;
     public bool attackmode = false;
@@ -250,6 +252,18 @@ public class PlayerScript : MonoBehaviour
         if (energy != 0)
         {
             //to do weapon switch later
+            if(weaponInHand == WeaponTypes.Sword)
+            {
+                weaponInHand = WeaponTypes.Bow;
+                bow.SetActive(true);
+                sword.SetActive(false);
+            }
+            else
+            {
+                weaponInHand = WeaponTypes.Sword;
+                bow.SetActive(false);
+                sword.SetActive(true);
+            }
             energy -= 5;
             player_turn = false;
         }

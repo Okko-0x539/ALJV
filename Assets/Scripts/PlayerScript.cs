@@ -18,11 +18,33 @@ public class PlayerScript : MonoBehaviour
     public GameObject terrain;
     public GameObject sword;
     public GameObject bow;
+    public GameObject messageBox;
     public bool player_turn = true;
     public bool attackmode = false;
     public TextMeshProUGUI instructions;
     public Slider Hp;
     public Slider Energy;
+
+    private Coroutine nextTurnCoroutine;
+
+
+    // Coroutine to hide the message box after a delay
+    private IEnumerator GoToEnemyTurn()
+    {
+        yield return new WaitForSeconds(1f);
+        enemy.GetComponent<EnemyAI>().DecideAction();
+        nextTurnCoroutine = null;
+    }
+
+    private void StartTimerForEnemyTurn()
+    {
+        if (nextTurnCoroutine != null)
+        {
+            return;
+        }
+        nextTurnCoroutine = StartCoroutine(GoToEnemyTurn());
+    }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -93,7 +115,7 @@ public class PlayerScript : MonoBehaviour
             gameObject.transform.Translate(0, 0, 4);
             energy -= 5;
             player_turn = false;
-            enemy.GetComponent<EnemyAI>().DecideAction();
+            StartTimerForEnemyTurn();
         }
         else
         {
@@ -108,7 +130,7 @@ public class PlayerScript : MonoBehaviour
             gameObject.transform.Translate(0, 0, -4);
             energy -= 5;
             player_turn = false;
-            enemy.GetComponent<EnemyAI>().DecideAction();
+            StartTimerForEnemyTurn();
         }
         else
         {
@@ -120,8 +142,9 @@ public class PlayerScript : MonoBehaviour
         energy += 50;
         if(energy > 100)
             energy = 100;
+        messageBox.GetComponent<MessageBox>().ShowMessage("The player rested and restored energy");
         player_turn = false;
-        enemy.GetComponent<EnemyAI>().DecideAction();
+        StartTimerForEnemyTurn();
     }
     public void Potion()
     {
@@ -129,8 +152,9 @@ public class PlayerScript : MonoBehaviour
         if(health > 100) 
             health = 100;
         potion.SetActive(false);
+        messageBox.GetComponent<MessageBox>().ShowMessage("The player drank a potion and restored health");
         player_turn = false;
-        enemy.GetComponent<EnemyAI>().DecideAction();
+        StartTimerForEnemyTurn();
     }
     public void Attack()
     {
@@ -152,8 +176,12 @@ public class PlayerScript : MonoBehaviour
                 if (attackChance <= 50 && CanAttack())
                 {
                     enemy.GetComponent<EnemyAI>().TakeDamage(5);
+                    messageBox.GetComponent<MessageBox>().ShowMessage("The player successfully hit the enemy");
                 }
-
+                else
+                {
+                    messageBox.GetComponent<MessageBox>().ShowMessage("Player missed!");
+                }
             }
             else
             {
@@ -161,10 +189,15 @@ public class PlayerScript : MonoBehaviour
                 if (attackChance <= 70 && CanAttack())
                 {
                     enemy.GetComponent<EnemyAI>().TakeDamage(5);
+                    messageBox.GetComponent<MessageBox>().ShowMessage("The player successfully hit the enemy");
+                }
+                else
+                {
+                    messageBox.GetComponent<MessageBox>().ShowMessage("Player missed!");
                 }
             }
             player_turn = false;
-            enemy.GetComponent<EnemyAI>().DecideAction();
+            StartTimerForEnemyTurn();
             attackmode = false;
             attackbuttons.SetActive(false);
 
@@ -189,6 +222,11 @@ public class PlayerScript : MonoBehaviour
                 if (attackChance <= 35 && CanAttack())
                 {
                     enemy.GetComponent<EnemyAI>().TakeDamage(10);
+                    messageBox.GetComponent<MessageBox>().ShowMessage("The player successfully hit the enemy");
+                }
+                else
+                {
+                    messageBox.GetComponent<MessageBox>().ShowMessage("Player missed!");
                 }
             }
             else
@@ -197,10 +235,15 @@ public class PlayerScript : MonoBehaviour
                 if (attackChance <= 50 && CanAttack())
                 {
                     enemy.GetComponent<EnemyAI>().TakeDamage(20);
+                    messageBox.GetComponent<MessageBox>().ShowMessage("The player successfully hit the enemy");
+                }
+                else
+                {
+                    messageBox.GetComponent<MessageBox>().ShowMessage("Player missed!");
                 }
             }
             player_turn = false;
-            enemy.GetComponent<EnemyAI>().DecideAction();
+            StartTimerForEnemyTurn();
             attackmode = false;
             attackbuttons.SetActive(false);
 
@@ -225,6 +268,11 @@ public class PlayerScript : MonoBehaviour
                 if (attackChance <= 20 && CanAttack())
                 {
                     enemy.GetComponent<EnemyAI>().TakeDamage(15);
+                    messageBox.GetComponent<MessageBox>().ShowMessage("The player successfully hit the enemy");
+                }
+                else
+                {
+                    messageBox.GetComponent<MessageBox>().ShowMessage("Player missed!");
                 }
             }
             else
@@ -233,10 +281,15 @@ public class PlayerScript : MonoBehaviour
                 if (attackChance <= 30 && CanAttack())
                 {
                     enemy.GetComponent<EnemyAI>().TakeDamage(30);
+                    messageBox.GetComponent<MessageBox>().ShowMessage("The player successfully hit the enemy");
+                }
+                else
+                {
+                    messageBox.GetComponent<MessageBox>().ShowMessage("Player missed!");
                 }
             }
             player_turn = false;
-            enemy.GetComponent<EnemyAI>().DecideAction();
+            StartTimerForEnemyTurn();
             attackmode = false;
             attackbuttons.SetActive(false);
 
@@ -269,8 +322,9 @@ public class PlayerScript : MonoBehaviour
                 sword.SetActive(true);
             }
             energy -= 5;
+            messageBox.GetComponent<MessageBox>().ShowMessage("Player switched weapons");
             player_turn = false;
-            enemy.GetComponent<EnemyAI>().DecideAction();
+            StartTimerForEnemyTurn();
         }
         else
         {

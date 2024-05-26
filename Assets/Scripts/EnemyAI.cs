@@ -15,6 +15,7 @@ public class EnemyAI : MonoBehaviour
     public GameObject terrain;
     public GameObject sword;
     public GameObject bow;
+    public GameObject messageBox;
     public Slider Hp;
     public Slider Energy;
 
@@ -50,6 +51,7 @@ public class EnemyAI : MonoBehaviour
         if (health > 100)
             health = 100;
         hasPotion = false;
+        messageBox.GetComponent<MessageBox>().ShowMessage("The enemy drank a potion and restored health");
     }
 
     public void Rest()
@@ -57,6 +59,7 @@ public class EnemyAI : MonoBehaviour
         energy += 50;
         if (energy > 100)
             energy = 100;
+        messageBox.GetComponent<MessageBox>().ShowMessage("The enemy rested and restored energy");
     }
 
     public void Attack()
@@ -86,8 +89,12 @@ public class EnemyAI : MonoBehaviour
             if(attackChance <= 50 && CanAttack())
             {
                 player.GetComponent<PlayerScript>().TakeDamage(5);
+                messageBox.GetComponent<MessageBox>().ShowMessage("The enemy successfully hit the player with an EASY attack");
             }
-            
+            else
+            {
+                messageBox.GetComponent<MessageBox>().ShowMessage("Enemy missed its EASY attack!");
+            }
         }
         else
         {
@@ -95,6 +102,11 @@ public class EnemyAI : MonoBehaviour
             if (attackChance <= 70 && CanAttack())
             {
                 player.GetComponent<PlayerScript>().TakeDamage(5);
+                messageBox.GetComponent<MessageBox>().ShowMessage("The enemy successfully hit the player with an EASY attack");
+            }
+            else
+            {
+                messageBox.GetComponent<MessageBox>().ShowMessage("Enemy missed its EASY attack!");
             }
         }
 
@@ -110,6 +122,11 @@ public class EnemyAI : MonoBehaviour
             if (attackChance <= 35 && CanAttack())
             {
                 player.GetComponent<PlayerScript>().TakeDamage(10);
+                messageBox.GetComponent<MessageBox>().ShowMessage("The enemy successfully hit the player with an MEDIUM attack");
+            }
+            else
+            {
+                messageBox.GetComponent<MessageBox>().ShowMessage("Enemy missed its MEDIUM attack!");
             }
         }
         else
@@ -118,6 +135,11 @@ public class EnemyAI : MonoBehaviour
             if (attackChance <= 50 && CanAttack())
             {
                 player.GetComponent<PlayerScript>().TakeDamage(20);
+                messageBox.GetComponent<MessageBox>().ShowMessage("The enemy successfully hit the player with an MEDIUM attack");
+            }
+            else
+            {
+                messageBox.GetComponent<MessageBox>().ShowMessage("Enemy missed its MEDIUM attack!");
             }
         }
 
@@ -133,6 +155,11 @@ public class EnemyAI : MonoBehaviour
             if (attackChance <= 20 && CanAttack())
             {
                 player.GetComponent<PlayerScript>().TakeDamage(15);
+                messageBox.GetComponent<MessageBox>().ShowMessage("The enemy successfully hit the player with an HARD attack");
+            }
+            else
+            {
+                messageBox.GetComponent<MessageBox>().ShowMessage("Enemy missed its HARD attack!");
             }
         }
         else
@@ -141,6 +168,11 @@ public class EnemyAI : MonoBehaviour
             if (attackChance <= 30 && CanAttack())
             {
                 player.GetComponent<PlayerScript>().TakeDamage(30);
+                messageBox.GetComponent<MessageBox>().ShowMessage("The enemy successfully hit the player with an HARD attack");
+            }
+            else
+            {
+                messageBox.GetComponent<MessageBox>().ShowMessage("Enemy missed its HARD attack!");
             }
         }
 
@@ -176,6 +208,7 @@ public class EnemyAI : MonoBehaviour
         if (!CanMoveForward()) return;
         gameObject.transform.Translate(0, 0, 4);
         energy -= 5;
+        messageBox.GetComponent<MessageBox>().ShowMessage("Enemy moved forward");
     }
 
     public void MoveBackward()
@@ -183,6 +216,7 @@ public class EnemyAI : MonoBehaviour
         if (!CanMoveBackward()) return;
         gameObject.transform.Translate(0, 0, -4);
         energy -= 5;
+        messageBox.GetComponent<MessageBox>().ShowMessage("Enemy moved backward");
     }
 
     public void SwitchWeapons()
@@ -200,7 +234,8 @@ public class EnemyAI : MonoBehaviour
                 weaponInHand = WeaponTypes.Bow;
                 bow.SetActive(true);
                 sword.SetActive(false);
-            }   
+            }
+            messageBox.GetComponent<MessageBox>().ShowMessage("Enemy switched weapons");
         }
         energy -= 5;
     }

@@ -86,7 +86,7 @@ public class EnemyAI : MonoBehaviour
         if(weaponInHand == WeaponTypes.Bow)
         {
             int attackChance = Random.Range(1, 101);
-            if(attackChance <= 50 && CanAttack())
+            if(attackChance <= 70 && CanAttack())
             {
                 player.GetComponent<PlayerScript>().TakeDamage(5);
                 messageBox.GetComponent<MessageBox>().ShowMessage("The enemy successfully hit the player with an EASY attack");
@@ -119,7 +119,7 @@ public class EnemyAI : MonoBehaviour
         if (weaponInHand == WeaponTypes.Bow)
         {
             int attackChance = Random.Range(1, 101);
-            if (attackChance <= 35 && CanAttack())
+            if (attackChance <= 50 && CanAttack())
             {
                 player.GetComponent<PlayerScript>().TakeDamage(10);
                 messageBox.GetComponent<MessageBox>().ShowMessage("The enemy successfully hit the player with an MEDIUM attack");
@@ -152,7 +152,7 @@ public class EnemyAI : MonoBehaviour
         if (weaponInHand == WeaponTypes.Bow)
         {
             int attackChance = Random.Range(1, 101);
-            if (attackChance <= 20 && CanAttack())
+            if (attackChance <= 30 && CanAttack())
             {
                 player.GetComponent<PlayerScript>().TakeDamage(15);
                 messageBox.GetComponent<MessageBox>().ShowMessage("The enemy successfully hit the player with an HARD attack");
@@ -185,7 +185,7 @@ public class EnemyAI : MonoBehaviour
     {
         if (weaponInHand == WeaponTypes.Bow)
         {
-            return player.transform.position.z - gameObject.transform.position.z <= 50;
+            return player.transform.position.z - gameObject.transform.position.z <= 60;
         }
         else
         {

@@ -76,7 +76,7 @@ public class PlayerScript : MonoBehaviour
     {
         if (weaponInHand == WeaponTypes.Bow)
         {
-            return gameObject.transform.position.z - enemy.transform.position.z <= 50;
+            return gameObject.transform.position.z - enemy.transform.position.z <= 60;
         }
         else
         {
@@ -173,7 +173,7 @@ public class PlayerScript : MonoBehaviour
             if (weaponInHand == WeaponTypes.Bow)
             {
                 int attackChance = Random.Range(1, 101);
-                if (attackChance <= 50 && CanAttack())
+                if (attackChance <= 70 && CanAttack())
                 {
                     enemy.GetComponent<EnemyAI>().TakeDamage(5);
                     messageBox.GetComponent<MessageBox>().ShowMessage("The player successfully hit the enemy");
@@ -219,7 +219,7 @@ public class PlayerScript : MonoBehaviour
             if (weaponInHand == WeaponTypes.Bow)
             {
                 int attackChance = Random.Range(1, 101);
-                if (attackChance <= 35 && CanAttack())
+                if (attackChance <= 50 && CanAttack())
                 {
                     enemy.GetComponent<EnemyAI>().TakeDamage(10);
                     messageBox.GetComponent<MessageBox>().ShowMessage("The player successfully hit the enemy");
@@ -265,7 +265,7 @@ public class PlayerScript : MonoBehaviour
             if (weaponInHand == WeaponTypes.Bow)
             {
                 int attackChance = Random.Range(1, 101);
-                if (attackChance <= 20 && CanAttack())
+                if (attackChance <= 30 && CanAttack())
                 {
                     enemy.GetComponent<EnemyAI>().TakeDamage(15);
                     messageBox.GetComponent<MessageBox>().ShowMessage("The player successfully hit the enemy");

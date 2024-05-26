@@ -54,11 +54,11 @@ public class PlayerScript : MonoBehaviour
     {
         if (weaponInHand == WeaponTypes.Bow)
         {
-            return gameObject.transform.position.z - enemy.transform.position.z < 20;
+            return gameObject.transform.position.z - enemy.transform.position.z <= 100;
         }
         else
         {
-            return gameObject.transform.position.z - enemy.transform.position.z < 6;
+            return gameObject.transform.position.z - enemy.transform.position.z <= 10;
         }
     }
 

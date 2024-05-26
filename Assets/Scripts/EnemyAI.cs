@@ -46,7 +46,7 @@ public class EnemyAI : MonoBehaviour
         }
     }
 
-    void DrinkPotion()
+    public void DrinkPotion()
     {
         health += 50;
         if (health > 100)
@@ -54,14 +54,14 @@ public class EnemyAI : MonoBehaviour
         hasPotion = false;
     }
 
-    void Rest()
+    public void Rest()
     {
         energy += 50;
         if (energy > 100)
             energy = 100;
     }
 
-    void Attack()
+    public void Attack()
     {
         int attackChoice = Random.Range(1, 4);
 
@@ -80,7 +80,7 @@ public class EnemyAI : MonoBehaviour
                 return;
         }
     }
-    void AttackEasy()
+    public void AttackEasy()
     {
         if(weaponInHand == WeaponTypes.Bow)
         {
@@ -104,7 +104,7 @@ public class EnemyAI : MonoBehaviour
         if (energy < 0)
             energy = 0;
     }
-    void AttackMedium()
+    public void AttackMedium()
     {
         if (weaponInHand == WeaponTypes.Bow)
         {
@@ -127,7 +127,7 @@ public class EnemyAI : MonoBehaviour
         if (energy < 0)
             energy = 0;
     }
-    void AttackHard()
+    public void AttackHard()
     {
         if (weaponInHand == WeaponTypes.Bow)
         {
@@ -151,15 +151,15 @@ public class EnemyAI : MonoBehaviour
             energy = 0;
     }
 
-    bool CanAttack()
+    public bool CanAttack()
     {
         if (weaponInHand == WeaponTypes.Bow)
         {
-            return player.transform.position.z - gameObject.transform.position.z < 20;
+            return player.transform.position.z - gameObject.transform.position.z <= 100;
         }
         else
         {
-            return player.transform.position.z - gameObject.transform.position.z < 6;
+            return player.transform.position.z - gameObject.transform.position.z <= 10;
         }
     }
 
@@ -173,21 +173,21 @@ public class EnemyAI : MonoBehaviour
         return gameObject.transform.position.z - 4 > terrain.GetComponent<TerrainAttributes>().ZAxisMinValue;
     }
 
-    void MoveForward()
+    public void MoveForward()
     {
         if (!CanMoveForward()) return;
-        gameObject.transform.Translate(0, 0, -4);
-        energy -= 5;
-    }
-
-    void MoveBackward()
-    {
-        if (!CanMoveBackward()) return;
         gameObject.transform.Translate(0, 0, 4);
         energy -= 5;
     }
 
-    void SwitchWeapons()
+    public void MoveBackward()
+    {
+        if (!CanMoveBackward()) return;
+        gameObject.transform.Translate(0, 0, -4);
+        energy -= 5;
+    }
+
+    public void SwitchWeapons()
     {
         if(canSwitchWeapons)
         {
@@ -207,27 +207,18 @@ public class EnemyAI : MonoBehaviour
         energy -= 5;
     }
 
-    bool IsPlayerInAttackRange()
-    {
-        if (weaponInHand == WeaponTypes.Bow)
-        {
-            return (player.transform.position.z - gameObject.transform.position.z) <= 20;
-        }
-        else
-        {
-            return (player.transform.position.z - gameObject.transform.position.z) <= 6;
-        }
-    }
-
     public void DecideAction()
     {
         if (health <= 0) // Not alive
         {
             Die(); // Die
+            Debug.Log("Enemy decided to Die");
+            return;
         }
         else if (health < 50 && hasPotion) // HP under 50
         {
             DrinkPotion(); // Drink potion
+            Debug.Log("Enemy decided to DrinkPotion");
         }
         else // HP 50 or above or less than 50 and doesn't have potion
         {
@@ -237,20 +228,23 @@ public class EnemyAI : MonoBehaviour
                 {
                     if (CanMoveBackward()) // Can move backwards
                     {
-                        if (IsPlayerInAttackRange()) // Player in attack range
+                        if (CanAttack()) // Player in attack range
                         {
                             if(player.GetComponent<PlayerScript>().CanAttack()) // Player can attack
                             {
-                                MoveBackward(); // Move backwards
+                                Attack(); // Attack
+                                Debug.Log("Enemy decided to Attack (Bow)");
                             }
                             else // Player cannot attack
                             {
-                                Attack(); // Attack
+                                MoveBackward(); // Move backwards
+                                Debug.Log("Enemy decided to MoveBackward");
                             }
                         }
                         else
                         {
-                            MoveBackward(); // Move backward
+                            MoveForward(); // Move forward
+                            Debug.Log("Enemy decided to MoveForward (2)");
                         }
                     }
                     else // Cannot move backwards
@@ -258,35 +252,41 @@ public class EnemyAI : MonoBehaviour
                         if (canSwitchWeapons) // Can switch weapons
                         {
                             SwitchWeapons();
+                            Debug.Log("Enemy decided to SwitchWeapons");
                         }
                         else
                         {
                             Attack();
+                            Debug.Log("Enemy decided to Attack (2)");
                         }
                     }
                 }
                 else // Has a sword
                 {
-                    if (IsPlayerInAttackRange()) // Player in attack range
+                    if (CanAttack()) // Player in attack range
                     {
                         if (player.GetComponent<PlayerScript>().CanAttack()) // Player can attack
                         {
-                            MoveBackward(); // Move backward
+                            Attack(); // Move forward
+                            Debug.Log("Enemy decided to Attack (Sword)");
                         }
                         else // Player cannot attack
                         {
-                            Attack(); // Move forward
+                            MoveBackward(); // Move backward
+                            Debug.Log("Enemy decided to MoveBackward (3)");
                         }
                     }
                     else if (CanMoveForward())
                     {
                         MoveForward();
+                        Debug.Log("Enemy decided to MoveForward");
                     }
                 }
             }
             else // Does not have enough energy
             {
                 Rest();
+                Debug.Log("Enemy decided to Rest");
             }
         }
         player.GetComponent<PlayerScript>().player_turn = true;
@@ -296,9 +296,27 @@ public class EnemyAI : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        PlayerPrefs.SetInt("AILevel", 2); // TESTING
+
         //if AILevel = 1 - no switch, sword weapon start
-        //if AILevel = 2 - no switch, bow weapon start
-        //if AILevel = 3 - can switch, bow weapon start
+        if (PlayerPrefs.GetInt("AILevel") == 1)
+        {
+            canSwitchWeapons = false;
+        }
+        else if (PlayerPrefs.GetInt("AILevel") == 2) //if AILevel = 2 - no switch, bow weapon start
+        {
+            weaponInHand = WeaponTypes.Bow;
+            bow.SetActive(true);
+            sword.SetActive(false);
+            canSwitchWeapons = false;
+        }
+        else if (PlayerPrefs.GetInt("AILevel") == 3) //if AILevel = 3 - can switch, bow weapon start
+        {
+            weaponInHand = WeaponTypes.Bow;
+            bow.SetActive(true);
+            sword.SetActive(false);
+            canSwitchWeapons = true;
+        }
     }
 
     // Update is called once per frame

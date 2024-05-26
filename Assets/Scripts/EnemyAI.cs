@@ -21,29 +21,27 @@ public class EnemyAI : MonoBehaviour
     public void TakeDamage(int damage)
     {
         health -= damage;
-        if (health <= 0)
-        {
-            Die();
-        }
     }
 
     void Die()
     {
-        if(PlayerPrefs.GetInt("AILevel") == 1)
+        switch (PlayerPrefs.GetInt("AILevel"))
         {
-            PlayerPrefs.SetInt("AILevel", 2);
-            SceneManager.LoadScene("Arena");
-        }
-        if (PlayerPrefs.GetInt("AILevel") == 2)
-        {
-            PlayerPrefs.SetInt("AILevel", 3);
-            SceneManager.LoadScene("Arena");
-        }
-        if (PlayerPrefs.GetInt("AILevel") == 3)
-        {
-            PlayerPrefs.SetInt("AILevel", 1);
-            SceneManager.LoadScene("Main");
-        }
+            case 1:
+                PlayerPrefs.SetInt("AILevel", 2);
+                SceneManager.LoadScene("Arena");
+                break;
+            case 2:
+                PlayerPrefs.SetInt("AILevel", 3);
+                SceneManager.LoadScene("Arena");
+                break;
+            case 3:
+                PlayerPrefs.SetInt("AILevel", 1);
+                SceneManager.LoadScene("Main");
+                break;
+            default:
+                break;
+        }     
     }
 
     public void DrinkPotion()

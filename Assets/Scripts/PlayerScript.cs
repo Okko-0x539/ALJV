@@ -54,7 +54,7 @@ public class PlayerScript : MonoBehaviour
     {
         if (weaponInHand == WeaponTypes.Bow)
         {
-            return gameObject.transform.position.z - enemy.transform.position.z <= 100;
+            return gameObject.transform.position.z - enemy.transform.position.z <= 50;
         }
         else
         {
@@ -151,7 +151,7 @@ public class PlayerScript : MonoBehaviour
                 int attackChance = Random.Range(1, 101);
                 if (attackChance <= 50 && CanAttack())
                 {
-                    enemy.GetComponent<PlayerScript>().TakeDamage(5);
+                    enemy.GetComponent<EnemyAI>().TakeDamage(5);
                 }
 
             }
@@ -160,7 +160,7 @@ public class PlayerScript : MonoBehaviour
                 int attackChance = Random.Range(1, 101);
                 if (attackChance <= 70 && CanAttack())
                 {
-                    enemy.GetComponent<PlayerScript>().TakeDamage(5);
+                    enemy.GetComponent<EnemyAI>().TakeDamage(5);
                 }
             }
             player_turn = false;
@@ -188,7 +188,7 @@ public class PlayerScript : MonoBehaviour
                 int attackChance = Random.Range(1, 101);
                 if (attackChance <= 35 && CanAttack())
                 {
-                    enemy.GetComponent<PlayerScript>().TakeDamage(10);
+                    enemy.GetComponent<EnemyAI>().TakeDamage(10);
                 }
             }
             else
@@ -196,7 +196,7 @@ public class PlayerScript : MonoBehaviour
                 int attackChance = Random.Range(1, 101);
                 if (attackChance <= 50 && CanAttack())
                 {
-                    enemy.GetComponent<PlayerScript>().TakeDamage(20);
+                    enemy.GetComponent<EnemyAI>().TakeDamage(20);
                 }
             }
             player_turn = false;
@@ -224,7 +224,7 @@ public class PlayerScript : MonoBehaviour
                 int attackChance = Random.Range(1, 101);
                 if (attackChance <= 20 && CanAttack())
                 {
-                    enemy.GetComponent<PlayerScript>().TakeDamage(15);
+                    enemy.GetComponent<EnemyAI>().TakeDamage(15);
                 }
             }
             else
@@ -232,7 +232,7 @@ public class PlayerScript : MonoBehaviour
                 int attackChance = Random.Range(1, 101);
                 if (attackChance <= 30 && CanAttack())
                 {
-                    enemy.GetComponent<PlayerScript>().TakeDamage(30);
+                    enemy.GetComponent<EnemyAI>().TakeDamage(30);
                 }
             }
             player_turn = false;

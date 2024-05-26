@@ -155,7 +155,7 @@ public class EnemyAI : MonoBehaviour
     {
         if (weaponInHand == WeaponTypes.Bow)
         {
-            return player.transform.position.z - gameObject.transform.position.z <= 100;
+            return player.transform.position.z - gameObject.transform.position.z <= 50;
         }
         else
         {
@@ -238,13 +238,13 @@ public class EnemyAI : MonoBehaviour
                             else // Player cannot attack
                             {
                                 MoveBackward(); // Move backwards
-                                Debug.Log("Enemy decided to MoveBackward");
+                                Debug.Log("Enemy decided to MoveBackward (Bow)");
                             }
                         }
                         else
                         {
                             MoveForward(); // Move forward
-                            Debug.Log("Enemy decided to MoveForward (2)");
+                            Debug.Log("Enemy decided to MoveForward (Bow)");
                         }
                     }
                     else // Cannot move backwards
@@ -252,12 +252,12 @@ public class EnemyAI : MonoBehaviour
                         if (canSwitchWeapons) // Can switch weapons
                         {
                             SwitchWeapons();
-                            Debug.Log("Enemy decided to SwitchWeapons");
+                            Debug.Log("Enemy decided to SwitchWeapons (Bow)");
                         }
                         else
                         {
                             Attack();
-                            Debug.Log("Enemy decided to Attack (2)");
+                            Debug.Log("Enemy decided to Attack (Bow)");
                         }
                     }
                 }
@@ -273,13 +273,13 @@ public class EnemyAI : MonoBehaviour
                         else // Player cannot attack
                         {
                             MoveBackward(); // Move backward
-                            Debug.Log("Enemy decided to MoveBackward (3)");
+                            Debug.Log("Enemy decided to MoveBackward (Sword)");
                         }
                     }
                     else if (CanMoveForward())
                     {
                         MoveForward();
-                        Debug.Log("Enemy decided to MoveForward");
+                        Debug.Log("Enemy decided to MoveForward (Sword)");
                     }
                 }
             }
@@ -296,8 +296,6 @@ public class EnemyAI : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        PlayerPrefs.SetInt("AILevel", 2); // TESTING
-
         //if AILevel = 1 - no switch, sword weapon start
         if (PlayerPrefs.GetInt("AILevel") == 1)
         {
